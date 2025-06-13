@@ -1,4 +1,4 @@
-# TrajSceneLLM: Trajectory Scene Understanding with the GeoLife Dataset
+# TrajSceneLLM: A Multimodal Perspective on Semantic GPS Trajectory Analysis
 
 This project provides a complete, configurable pipeline for processing, analyzing, and classifying GPS trajectories from the **Microsoft GeoLife 1.3 dataset**. It leverages Large Language Models (LLMs) and multimodal embedding techniques to understand and categorize trajectories based on their spatial patterns, textual descriptions, and visual representations.
 
