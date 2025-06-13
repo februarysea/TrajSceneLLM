@@ -1,0 +1,127 @@
+# Configuration for the Trajectory Scene Generation Project
+
+# -----------------
+# 1. PATHS
+# -----------------
+paths:
+  # Raw data input from the Geolife 1.3 dataset
+  geolife_raw_data: "data/raw/Geolife Trajectories 1.3/Data"
+
+  # Directory to save processed data artifacts
+  processed_data: "data/processed"
+  
+  # Directory to save generated trajectory images
+  images: "data/images"
+
+  # Specific output file names
+  matched_trajectories: "matched_trajectories.parquet"
+  cleaned_trajectories: "cleaned_trajectories_filtered.parquet"
+  trajectories_gpkg: "beijing_trajectories_filtered_final.gpkg"
+  
+  # OSM data files
+  road_network: "beijing_roads.graphml"
+  subway_lines: "beijing_subway_lines.geojson"
+  subway_stations: "beijing_subway_stations.geojson"
+  bus_stops: "beijing_bus_stops.geojson"
+  bus_routes: "beijing_bus_routes.geojson"
+  
+  # Time sequence files
+  time_sequence_csv: "trajectory_time_sequence.csv"
+  id_time_sequence_pickle: "id_time_sequence.pkl"
+
+# -----------------
+# PROJECT-WIDE SETTINGS
+# -----------------
+project:
+  random_seed: 3407
+
+# -----------------
+# 2. GEOLIFE DATA PROCESSING
+# -----------------
+geolife:
+  # User ID range to process from the dataset
+  user_ids:
+    min: 160
+    max: 161 # Corresponds to range(160, 171)
+
+# -----------------
+# 3. OSM DATA DOWNLOAD
+# -----------------
+osm:
+  place_name: "Beijing, China"
+  # Bounding box for backup downloads if place name fails
+  bbox:
+    north: 40.2
+    south: 39.6
+    east: 116.8
+    west: 116.0
+  
+  # Tags for querying OSM data
+  subway_lines_tags:
+    railway: ["subway", "light_rail"]
+  subway_stations_tags:
+    railway: "station"
+    subway: "yes"
+  bus_stops_queries:
+    - { public_transport: "platform", bus: "yes" }
+    - { highway: "bus_stop" }
+    - { public_transport: "stop_position", bus: "yes" }
+  bus_routes_queries:
+    - { route: "bus" }
+    - { type: "route", route: "bus" }
+
+# -----------------
+# 4. IMAGE GENERATION
+# -----------------
+visualization:
+  image_dpi: 300
+  padding: 0.005 # Padding around a trajectory for the map view
+  colors:
+    trajectory: "#ff3333"
+    subway: "#8856a7"
+    road: "#d3d3d3"
+    bus_stop: "#2ecc71"
+  linewidth:
+    roads: 0.6
+    subway: 4.0
+  markersize:
+    bus_stops: 30
+    trajectory_points: 10
+  alpha:
+    roads: 0.6
+    subway: 0.9
+    bus_stops: 0.7
+    trajectory_points: 0.9
+
+# -----------------
+# 5. DATA FILTERING
+# -----------------
+filtering:
+    min_points_per_trajectory: 10 # Minimum number of points for a trajectory to be kept
+    speed_threshold_kmh: 200 # Threshold to filter out unrealistic speeds 
+
+# -----------------
+# 6. TRAINING CONFIGURATION
+# -----------------
+training:
+  classical_trainer:
+    output_dir: "models/classical_models"
+    test_size: 0.2
+    grid_search_cv_folds: 5
+
+  embedding_trainer:
+    output_dir: "models/embedding_models"
+    test_split: 0.15 # Proportion of the dataset to be used for testing
+    val_split: 0.176 # Proportion of the training set to be used for validation (0.15 / (1-0.15))
+    batch_size: 256
+    epochs: 100
+    learning_rate: 0.001
+    hidden_dim: 256
+    dropout_rate: 0.5
+    num_workers: 0
+
+# -----------------
+# 7. EMBEDDINGS
+# -----------------
+embeddings:
+# ... existing code ... 
