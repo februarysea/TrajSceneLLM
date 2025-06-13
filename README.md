@@ -58,7 +58,16 @@ DEEPSEEK_API_KEY="your_deepseek_api_key" # For text description generation
 2.  Extract the archive.
 3.  Place the extracted `Geolife Trajectories 1.3` folder (which contains the `Data` directory) into the `data/raw/` directory of this project. The final path should look like: `data/raw/Geolife Trajectories 1.3/Data/...`.
 
-### 4. Project Configuration (`config.yaml`)
+### 4. Download Beijing Map Data
+This project requires road network and public transit data (subway, bus) for Beijing. The pipeline can automatically download this data from OpenStreetMap (OSM).
+
+Run the following command to trigger the download:
+```bash
+python3 main.py --steps download_osm
+```
+This command uses the settings in `config/config.yaml` to download the required data and save it to the `data/processed/` directory.
+
+### 5. Project Configuration (`config.yaml`)
 The configuration file at `config/config.yaml` is pre-set for the GeoLife dataset. You can review it to adjust parameters if needed.
 
 -   **`paths`**: Paths are configured for the default GeoLife structure. No changes are needed if you followed the setup above.
