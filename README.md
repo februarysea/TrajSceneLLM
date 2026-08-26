@@ -1,3 +1,5 @@
+
+
 # TrajSceneLLM: A Multimodal Perspective on Semantic GPS Trajectory Analysis
 
 This project provides a complete, configurable pipeline for processing, analyzing, and classifying GPS trajectories from the **Microsoft GeoLife 1.3 dataset**. It leverages Large Language Models (LLMs) and multimodal embedding techniques to understand and categorize trajectories based on their spatial patterns, textual descriptions, and visual representations.
@@ -82,7 +84,7 @@ The configuration file at `config/config.yaml` is pre-set for the GeoLife datase
 The pipeline is controlled via `main.py`. You can run individual steps or chain them together.
 
 ### Core Steps
-- `clean_data`: Cleans the raw GeoLife trajectory files.
+- `process_geolife`: Cleans the raw GeoLife trajectory files.
 - `generate_sequences`: Groups points into sequences (required by all subsequent steps).
 - `generate_images`: Creates map images for each trajectory.
 - `generate_text`: Generates textual descriptions using the configured LLM.
@@ -95,7 +97,7 @@ The pipeline is controlled via `main.py`. You can run individual steps or chain 
 This is a robust and recommended workflow.
 ```bash
 # Step 1: Clean raw data and generate sequences
-python3 main.py --steps clean_data generate_sequences
+python3 main.py --steps process_geolife generate_sequences
 
 # Step 2: Generate features and embeddings
 python3 main.py --steps generate_text generate_images
@@ -109,7 +111,7 @@ python3 main.py --steps train_embedding_model --embedding_types image text
 **2. Full Pipeline with Early Fusion**
 ```bash
 # Step 1: Clean raw data and generate sequences, text, and images
-python3 main.py --steps clean_data generate_sequences generate_text generate_images
+python3 main.py --steps process_geolife generate_sequences generate_text generate_images
 
 # Step 2: Generate the fused multimodal embeddings
 python3 main.py --steps generate_embeddings --embedding_mode multimodal
@@ -128,4 +130,4 @@ After running the training pipeline, the following outputs will be generated in 
 -   **`classification_report.csv`**: A detailed report with precision, recall, and F1-score for each class.
 -   **`confusion_matrix.png`**: A visualization of the model's predictions on the test set.
 -   **`training_log.log`**: A complete log of the training process.
--   **`training_plots.png`**: Plots showing the training & validation loss and accuracy over epochs. 
+-   **`training_plots.png`**: Plots showing the training & validation loss and accuracy over epochs.
